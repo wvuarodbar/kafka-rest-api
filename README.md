@@ -1,5 +1,23 @@
 docker-compuse up -d
 
+run python kafka-rest.py
+run python kafka-consumer.py
+
+you will have to create the index in kibana dev tools by using:
+PUT /test-index
+{
+  "mappings": {
+    "properties": {
+      "key": {
+        "type": "text"
+      },
+      "message": {
+        "type": "text"
+      }
+    }
+  }
+}
+
 run docker logs -f devnifi
 # get the username and password just scroll up or search to find it
 
@@ -10,7 +28,7 @@ run docker logs -f devnifi
 insert consumekafkarecord_1_0
 
 use the docker networks kafka ip address
-Topic Name "your topic name"
+Topic Name "your topic name" <- test-topic
 Topic Name Format - names
 Record Reader JSON Tree Reader
         -Json TREE READER Config
@@ -27,7 +45,7 @@ record writer JSONRECORDSETWRITER
                 - compression format = None
 Honor transactions True
 security protocol PLAINTEXT
-Group ID = "your group id"
+Group ID = "your group id" <- our case it is test-group
 offset reset = latest
 
 
