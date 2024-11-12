@@ -2,7 +2,7 @@ import requests
 import json
 
 # Kafka REST Proxy URL for creating a consumer
-create_consumer_url = 'http://localhost:8082/consumers/my-consumer-group'
+create_consumer_url = 'http://localhost:8082/consumers/test-group'
 
 # Consumer configuration
 consumer_config = {

@@ -25,7 +25,7 @@ services:
       - elk-network
 
   nifi:
-    image: apache/nifi:latest
+    image: apache/nifi:1.15.0
     container_name: devnifi
     environment:
       - NIFI_WEB_HTTPS_PORT=8443
@@ -61,6 +61,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_NAME_DEFAULT: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
@@ -81,6 +83,28 @@ services:
     networks:
       - elk-network
 
+  akhq:
+      image: tchiotludo/akhq:0.23.0
+      environment:
+        AKHQ_CONFIGURATION: |
+          akhq:
+            connections:
+              kafka-cluster:
+                properties:
+                  bootstrap.servers: "kafka:9092"  # Use internal listener only
+      ports:
+        - "8080:8080"
+      depends_on:
+        - kafka
+      networks:
+        - elk-network
+      deploy:
+        resources:
+          limits:
+            memory: "512m"
+            cpus: "0.5"
+
+
 
 volumes:
   esdata:
@@ -89,3 +113,4 @@ volumes:
 networks:
   elk-network:
     driver: bridge
+
