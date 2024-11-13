@@ -76,3 +76,6 @@ BatchSize = 100
 The end result will be the record will be sent over this config 
 and be placed in elastic search just check the localhost:9200/"your index"/_search
 to check on if it is running.
+It will say something weird like In: # of records
+                                     Read/Write #bytes / 0bytes
+                                     Out: 0 <- this doesnt mean that it is not in elasticsearch. CHECK ELASTICSEARCH
